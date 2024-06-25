@@ -9,24 +9,24 @@ Breast cancer is a significant health issue worldwide, and early detection is cr
 # Dataset
 The dataset used in this project is the Breast Cancer Data Set referred from the Kaggle site.
 
--Number of Instances: 569
--Number of Attributes: 32 
--Attribute Information:
--Mean radius
--Mean texture
--Mean perimeter
--Mean area
--Mean smoothness
+- Number of Instances: 569
+- Number of Attributes: 32 
+- Attribute Information:
+- Mean radius
+- Mean texture
+- Mean perimeter
+- Mean area
+- Mean smoothness
 ... (and other relevant features)
--Target Variable: Diagnosis (M = malignant, B = benign)
+- Target Variable: Diagnosis (M = malignant, B = benign)
 
 # Model
 The logistic regression model is used to estimate the probability that a given instance (tumor) is malignant. Logistic regression is well-suited for binary classification tasks.
 
 # Model Training
--The dataset is split into training and testing sets.
--Feature scaling is performed to standardize the features.
--The logistic regression algorithm is applied to the training data.
+- The dataset is split into training and testing sets.
+- Feature scaling is performed to standardize the features.
+- The logistic regression algorithm is applied to the training data.
 
 # Model Evaluation
 The model's performance is evaluated using metrics such as accuracy and precision.
@@ -34,8 +34,8 @@ The model's performance is evaluated using metrics such as accuracy and precisio
 # Evaluation
 The model's performance is assessed using the following metrics:
 
--Accuracy: The proportion of true results (both true positives and true negatives) among the total number of cases examined.
--Precision: The proportion of true positive results among the total predicted positives.
+- Accuracy: The proportion of true results (both true positives and true negatives) among the total number of cases examined.
+- Precision: The proportion of true positive results among the total predicted positives.
 
 # Results
 The logistic regression model achieves an accuracy of 97.9% on the test dataset. The results demonstrate the model's effectiveness in predicting breast cancer diagnoses.
