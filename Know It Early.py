@@ -3,40 +3,30 @@ import pandas as pd
 import numpy as np
 import pickle
 
-# Load your trained model
-with open('breast_cancer_model.pkl', 'rb') as f:
-    model = pickle.load(f)
+# Load model, scaler, and feature names
+classifier, scaler, feature_names = joblib.load("breast_cancer_model.pkl")
 
 # Page config
 st.set_page_config(page_title="Know It Early", layout="centered", page_icon="🩺")
-
-# Optional: Add logo
-st.image("Logo.png", width=120)  # Ensure logo.png is in the same folder
+st.image("Logo.png", width=120)
 st.title("🧬 Know It Early")
 st.markdown("""
 #### A Clinical Tool for Early Breast Cancer Detection  
 Use the form below to input clinical tumor characteristics. This tool will assist in predicting whether the tumor is **malignant** or **benign** based on a trained logistic regression model.
 """)
 
-# Sidebar input form
+# Sidebar inputs
 st.sidebar.header("Enter Tumor Measurements")
 
 def get_user_input():
-    mean_radius = st.sidebar.slider("Mean Radius", 6.0, 30.0, 14.0)
-    mean_texture = st.sidebar.slider("Mean Texture", 9.0, 40.0, 20.0)
-    mean_perimeter = st.sidebar.slider("Mean Perimeter", 40.0, 190.0, 90.0)
-    mean_area = st.sidebar.slider("Mean Area", 140.0, 2500.0, 500.0)
-    mean_smoothness = st.sidebar.slider("Mean Smoothness", 0.05, 0.2, 0.1)
-
-    data = {
-        'mean radius': mean_radius,
-        'mean texture': mean_texture,
-        'mean perimeter': mean_perimeter,
-        'mean area': mean_area,
-        'mean smoothness': mean_smoothness
-    }
-
-    return pd.DataFrame([data])
+    user_data = {}
+    for feature in feature_names:
+        user_data[feature] = st.sidebar.number_input(
+            label=feature,
+            value=0.0,
+            format="%.4f"
+        )
+    return pd.DataFrame([user_data])
 
 # Collect input
 input_df = get_user_input()
@@ -45,14 +35,24 @@ input_df = get_user_input()
 st.subheader("🧾 Patient Input Data")
 st.write(input_df)
 
-# Prediction
+# Predict button
 if st.button("🔍 Predict Diagnosis"):
-    prediction = model.predict(input_df)[0]
-    proba = model.predict_proba(input_df)[0][prediction]
-    result = "🛑 Malignant Tumor" if prediction == 0 else "✅ Benign Tumor"
+    try:
+        # Scale the input
+        input_scaled = scaler.transform(input_df)
 
-    st.subheader("🔬 Prediction Result")
-    st.success(f"{result}\n\nConfidence: **{proba * 100:.2f}%**")
+        # Make prediction
+        prediction = classifier.predict(input_scaled)[0]
+        proba = classifier.predict_proba(input_scaled)[0][prediction]
+
+        result = "🛑 Malignant Tumor" if prediction == 1 else "✅ Benign Tumor"
+
+        # Output
+        st.subheader("🔬 Prediction Result")
+        st.success(f"{result}\n\nConfidence: **{proba * 100:.2f}%**")
+
+    except Exception as e:
+        st.error(f"An error occurred during prediction: {e}")
 
 # Footer
 st.markdown("---")
