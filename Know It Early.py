@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import pickle
+import joblib
 
 # Load model, scaler, and feature names
 classifier, scaler, feature_names = joblib.load("breast_cancer_model.pkl")
