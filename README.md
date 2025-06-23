@@ -39,3 +39,6 @@ The model's performance is assessed using the following metrics:
 
 # Results
 The logistic regression model achieves an accuracy of 97.9% on the test dataset. The results demonstrate the model's effectiveness in predicting breast cancer diagnoses.
+
+# Live Deployment
+Know it Early on streamlit - https://know-it-early-4kbub5t3cymnuq6usfclqg.streamlit.app/
